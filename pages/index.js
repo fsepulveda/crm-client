@@ -3,19 +3,7 @@ import {gql, useQuery} from "@apollo/client";
 import {useRouter} from "next/router";
 import Link from 'next/link';
 import {Client} from "../components/Client";
-
-const GET_CLIENTS_BY_SELLER = gql`
-    query getClientsBySeller {
-        getClientsBySeller  {
-            name
-            lastname
-            company
-            email
-            id
-            phone
-        }
-    }
-`;
+import {GET_CLIENTS_BY_SELLER} from "../graphql/queries";
 
 export default function Index() {
     const {data, loading, error, client} = useQuery(GET_CLIENTS_BY_SELLER);

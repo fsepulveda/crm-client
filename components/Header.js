@@ -1,16 +1,7 @@
 import React from 'react';
 import {gql, useQuery} from "@apollo/client";
 import {useRouter} from "next/router";
-
-const GET_USER = gql`
-    query getUser{
-        getUser  {
-            id
-            name
-            lastname
-        }
-    }
-`;
+import {GET_USER} from "../graphql/queries";
 
 const Header = () => {
     const {client, data, loading, error} = useQuery(GET_USER, {fetchPolicy: "network-only"});

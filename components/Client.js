@@ -1,25 +1,10 @@
 import Swal from 'sweetalert2';
 import {gql, useMutation} from "@apollo/client";
 import Router from 'next/router';
+import {GET_CLIENTS_BY_SELLER} from '../graphql/queries';
+import {DELETE_CLIENTE} from "../graphql/mutations";
 
-const DELETE_CLIENTE = gql`
-    mutation  deleteClient($id: ID!) {
-        deleteClient(id: $id)
-    }
-`;
 
-const GET_CLIENTS_BY_SELLER = gql`
-    query getClientsBySeller {
-        getClientsBySeller  {
-            name
-            lastname
-            company
-            email
-            id
-            phone
-        }
-    }
-`;
 
 export function Client({client}) {
     const {id, name, lastname, company, email} = client;

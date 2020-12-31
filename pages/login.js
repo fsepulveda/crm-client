@@ -4,15 +4,7 @@ import {useFormik} from "formik";
 import * as Yup from 'yup';
 import {gql, useMutation} from "@apollo/client";
 import {useRouter} from "next/router";
-import {route} from "next/dist/next-server/server/router";
-
-const AUTH_USER = gql`
-    mutation authenticateUser($input: AuthenticateInput  ) {
-        authenticateUser(input: $input  ) {
-            token
-        }
-    }
-`;
+import {AUTH_USER} from "../graphql/mutations";
 
 const Login = () => {
     const [authenticateUser] = useMutation(AUTH_USER);

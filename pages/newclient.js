@@ -4,32 +4,8 @@ import {useFormik} from "formik";
 import * as Yup from 'yup';
 import {gql, useMutation} from "@apollo/client";
 import {useRouter} from "next/router";
-
-const NEW_CLIENT = gql`
-    mutation  newClient($input: ClientInput) {
-        newClient(input: $input  ) {
-            id
-            name
-            lastname
-            company
-            email
-            phone
-        }
-    }
-`;
-
-const GET_CLIENTS_BY_SELLER = gql`
-    query getClientsBySeller {
-        getClientsBySeller  {
-            name
-            lastname
-            company
-            email
-            id
-            phone
-        }
-    }
-`;
+import {NEW_CLIENT} from "../graphql/mutations";
+import {GET_CLIENTS_BY_SELLER} from "../graphql/queries";
 
 const NewClient = () => {
     const [newClient] = useMutation(NEW_CLIENT, {
