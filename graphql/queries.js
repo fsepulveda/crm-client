@@ -45,3 +45,26 @@ export const GET_PRODUCT_BY_ID = gql`
         }
     }
 `;
+
+export const GET_ORDERS_BY_SELLER = gql`
+    query getOrdersBySeller {
+        getOrdersBySeller {
+            id
+            order {
+                id
+                count
+                name
+            }
+            client {
+                id
+                name
+                lastname
+                email
+                phone
+            }
+            seller
+            total
+            status
+        }
+    }
+`;

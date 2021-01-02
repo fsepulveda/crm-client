@@ -55,3 +55,30 @@ export const UPDATE_PRODUCT = gql`
         }
     }
 `;
+
+export const NEW_ORDER = gql`
+    mutation  newOrder ($input: OrderInput) {
+        newOrder(input: $input) {
+            id
+            client
+            seller
+            order {
+                id
+                count
+                name
+                price
+            }
+            total
+            status
+        }
+    }
+`;
+
+export const UPDATE_ORDER = gql`
+    mutation  updateOrder ($id: ID!, $input: OrderInput) {
+        updateOrder(id: $id, input: $input) {
+            id
+            status
+        }
+    }
+`;
