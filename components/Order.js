@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import {useMutation} from "@apollo/client";
-import {UPDATE_ORDER} from "../graphql/mutations";
+import {DELETE_ORDER, UPDATE_ORDER} from "../graphql/mutations";
+import Swal from "sweetalert2";
+import {GET_ORDERS_BY_SELLER} from "../graphql/queries";
 
 const Order = ({order}) => {
 
@@ -8,6 +10,20 @@ const Order = ({order}) => {
     const [orderStatus, setOrderStatus] = useState(status);
     const [classStatus, setClassStatus] = useState('');
     const [updateOrder] = useMutation(UPDATE_ORDER);
+    const [deleteOrder] = useMutation(DELETE_ORDER, {
+        update(cache) {
+            const {getOrdersBySeller} = cache.readQuery({
+                query: GET_ORDERS_BY_SELLER
+            });
+
+            cache.writeQuery({
+                query: GET_ORDERS_BY_SELLER,
+                data: {
+                    getOrdersBySeller: getOrdersBySeller.filter(order => order.id !== id)
+                }
+            })
+        }
+    });
 
     useEffect(() => {
         if (orderStatus) {
@@ -33,6 +49,38 @@ const Order = ({order}) => {
         } catch (e) {
 
         }
+    }
+
+    const handleDelete = async () => {
+        Swal.fire({
+            title: '¿Deseas eliminar este producto?',
+            text: "Esta acción no se puede deshacer",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, Eliminar',
+            cancelButtonText: 'No, Cancelar'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const {data} = await deleteOrder({
+                        variables: {
+                            id
+                        }
+                    });
+
+                    console.log(data);
+                    Swal.fire(
+                        'Eliminada!',
+                        'La orden ha sido eliminada.',
+                        'success'
+                    )
+                } catch (e) {
+
+                }
+            }
+        });
     }
 
     const changeColorStatus = () => {
@@ -76,7 +124,7 @@ const Order = ({order}) => {
                     className="mt-2 appearance-none bg-blue-600 border border-blue-600 text-white p-2 text-center rounded leading-tight focus:outline-none focus:bg-blue-600 focus:border-blue-500 uppercase text-xs font-bold">
                     <option value="COMPLETED">Completado</option>
                     <option value="PENDING">Pendiente</option>
-                    <option value="CANCELED">Cancelado</option>
+                    <option value="CANCELLED">Cancelado</option>
                 </select>
             </div>
             <div>
@@ -91,6 +139,7 @@ const Order = ({order}) => {
                     <span className="font-light"> $ {total}</span>
                 </p>
                 <button type="button"
+                        onClick={handleDelete}
                         className="flex items-center mt-4 bg-red-800 px-5 py-2 inline-block rounded text-white uppercase text-xs font-bold">Eliminar
                     pedido
                     <svg className="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"

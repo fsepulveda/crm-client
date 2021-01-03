@@ -37,7 +37,10 @@ const Login = () => {
                 if (data.authenticateUser.token) {
                     setSuccess(`Login ok!`);
 
-                    localStorage.setItem('token', data.authenticateUser.token);
+                    setTimeout(() => {
+                        localStorage.setItem('token', data.authenticateUser.token);
+                    }, 1000);
+
 
                     setTimeout(() => {
                         setSuccess(null);

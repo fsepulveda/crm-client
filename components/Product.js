@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import {gql, useMutation} from "@apollo/client";
+import {useMutation} from "@apollo/client";
 import Router from 'next/router';
 import {GET_PRODUCTS} from "../graphql/queries";
 import {DELETE_PRODUCT} from "../graphql/mutations";
@@ -59,7 +59,7 @@ export function Product({product}) {
                 }
 
             }
-        })
+        });
     }
 
     return (

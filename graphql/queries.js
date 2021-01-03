@@ -68,3 +68,31 @@ export const GET_ORDERS_BY_SELLER = gql`
         }
     }
 `;
+
+export const GET_BEST_SELLERS = gql`
+    query bestSellers {
+        bestSellers {
+            total
+            seller {
+                name
+                lastname
+                email
+                createAt
+            }
+        }
+    }
+`;
+
+export const GET_BEST_CLIENTS = gql`
+    query bestClients {
+      bestClients {
+        client {
+          name
+          lastname
+          company
+        }
+        total
+      }
+    }
+`
+;
